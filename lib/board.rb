@@ -88,9 +88,9 @@ class Board
   def winner?(player1, player2)
     if self.win? == true
       if self.turn % 2 == 0
-        puts "#{player2.name}-#{player2.marker} wins"
+        puts "#{player2.name}-('#{player2.marker}') wins"
       elsif self.turn % 1 == 0
-        puts "#{player1.name}-#{player1.marker} wins"
+        puts "#{player1.name}-('#{player1.marker}') wins"
       end
     else
       puts "Game over! Tied Game!"

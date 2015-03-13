@@ -33,9 +33,13 @@ class Game
         @player2 = Human.new(get_player_name)
       end 
     else
-      puts "Invalid number of players. Pleae try again."
-      get_num_human_players
+      invalid_try_again
+      get_players
     end
+  end
+
+  def invalid_try_again
+    puts "Invalid answer. Pleae try again."
   end
 
   def computer_smart?
@@ -49,7 +53,7 @@ class Game
     elsif ans == 'n'
       puts "Computer will play randomly."
     else
-      puts "Invalid answer. Please try again"
+      invalid_try_again
       computer_smart?
     end
   end
@@ -59,7 +63,7 @@ class Game
   end
 
   def select_who_goes_first
-    puts "Please choose who begins the game:"
+    puts "Who will begin the game? (1, 2, or 3)"
     puts "(1) #{@player1.name}"
     puts "(2) #{@player2.name}"
     puts "(3) Random - doesn't matter who goes first"
@@ -79,19 +83,20 @@ class Game
         @player1.marker = markers.sample
         @player2.marker = (markers - [@player1.marker])[0]
       end
+      
+      puts "You've chosen #{selection}."
+
+      if @player2.marker == 'x'
+        player = @player1
+        self.player1 = @player2
+        self.player2 = player
+      end
+
+      puts "#{@player1.name} will go first."
     else
-      puts "Invalid section. Please try again."
+      invalid_try_again
       select_who_goes_first
     end
-    puts "You've chosen #{selection}."
-
-    if @player2.marker == 'x'
-      player = @player1
-      self.player1 = @player2
-      self.player2 = player
-    end
-
-    puts "#{@player1.name} will go first."
   end
 
   def selection_valid?(selection)
@@ -136,7 +141,7 @@ class Game
     elsif answer == 'n'
       puts "Thanks for playing!"
     else
-      puts "Invalid answer. Try again."
+      invalid_try_again
       play_again
     end
   end

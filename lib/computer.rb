@@ -21,9 +21,7 @@ class Computer
       return take_or_block_win, statement  if take_or_block_win?
       return take_center, statement  if take_center?
       return take_opposite_corner, statement  if take_opposite_corner?
-      binding.pry
       return take_empty_corner, statement  if take_empty_corner?
-      
       return take_empty_side, statement  if take_empty_side?
     else
       return take_random, statement
@@ -31,7 +29,7 @@ class Computer
   end
 
   def statement
-    puts "#{self.name} plays position #{self.position}."
+    puts "#{self.name}-('#{self.marker}') plays position #{self.position}."
   end
 
   def take_random

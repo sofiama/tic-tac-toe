@@ -6,7 +6,7 @@ class Human
   end
 
   def move
-    puts "#{self.name} enter your position: "
+    puts "#{self.name}-('#{self.marker}') enter your position: "
     @position = gets.chomp.to_s
   end
 end
