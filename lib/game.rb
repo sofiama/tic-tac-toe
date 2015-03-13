@@ -19,18 +19,19 @@ class Game
   end
 
   def get_players
-    puts "How many human players? (1 or 2)"
-    player_num = gets.chomp.to_s
-    if player_num_valid?(player_num)
-      case player_num
-      when '1'
+    puts "Do you want to play against a computer? (Y/N)"
+    ans = gets.chomp.to_s
+
+    if ans_valid?(ans)
+      case ans
+      when 'y'
         self.player1 = Human.new(get_player_name)
         self.player2 = Computer.new(@board)
         select_computer_smart
-      when '2'
-        print "First player, "
+      when 'n'
+        print "First human player, "
         self.player1 = Human.new(get_player_name)
-        print "Second player, "
+        print "Second human player, "
         self.player2 = Human.new(get_player_name)
       end 
     else
@@ -39,27 +40,30 @@ class Game
     end
   end
 
+  def ans_valid?(ans_valid)
+    true if ans_valid == 'y' || ans_valid == 'n'
+  end
+
   def invalid_try_again
     puts "Invalid answer. Pleae try again."
   end
 
   def select_computer_smart
-    puts "Your opponent will be a computer. Do you want the computer to play 'smart'? (Y/N)"
+    puts "Do you want the computer to play 'smart'? (Y/N)"
     ans = gets.chomp.downcase
 
-    if ans == 'y'
-      puts "Computer will play 'smart'."
-      self.player2.smart = 'on'
-    elsif ans == 'n'
-      puts "Computer will play randomly."
+    if ans_valid?(ans)
+      case ans
+      when 'y'
+        puts "Computer will play 'smart'."
+        self.player2.smart = 'on'
+      when 'n'
+        puts "Computer will play randomly."
+      end
     else
       invalid_try_again
       select_computer_smart
     end
-  end
-
-  def player_num_valid?(player_num)
-    true if player_num == '1' || player_num == '2'
   end
 
   def select_marker
@@ -158,11 +162,15 @@ class Game
 
   def play_again
     puts "Do you want to play again? (Y/N)"
-    answer = gets.chomp.downcase
-    if answer == 'y'
-      Game.new
-    elsif answer == 'n'
-      puts "Thanks for playing!"
+    ans = gets.chomp.downcase
+
+    if ans_valid?(ans)
+      case ans
+      when 'y'
+        Game.new
+      when 'n'
+        puts "Thanks for playing!"
+      end
     else
       invalid_try_again
       play_again
