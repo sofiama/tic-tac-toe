@@ -21,8 +21,10 @@ class Computer
       return take_or_block_win, statement  if take_or_block_win?
       return take_center, statement  if take_center?
       return take_opposite_corner, statement  if take_opposite_corner?
+      binding.pry
       return take_empty_corner, statement  if take_empty_corner?
-      return take_random, statement
+      
+      return take_empty_side, statement  if take_empty_side?
     else
       return take_random, statement
     end
@@ -130,7 +132,7 @@ class Computer
   def take_empty_corner?
     corners = [[0,0], [0,2], [2,0], [2,2]]
     corners.each do |corner|
-      if @board_state.board[corner.first][corner.last] != 'x' || @board_state.board[corner.first][corner.last] != 'o'
+      if @board_state.board[corner.first][corner.last] != 'x' && @board_state.board[corner.first][corner.last] != 'o'
         return true
       end
     end
@@ -148,6 +150,31 @@ class Computer
     end
 
     position = empty_corners.sample
+    @position = @board_state.board[position.first][position.last]
+    @board_state.take_position(@position, marker)
+  end
+
+  def take_empty_side?
+    sides = [[0,1], [1,0], [2,1], [1,2]]
+
+    sides.each do |side|
+      if @board_state.board[side.first][side.last] != 'x' && @board_state.board[side.first][side.last] != 'o'
+        return true
+      end
+    end
+    false
+  end
+
+  def take_empty_side
+    sides = [[0,1], [1,0], [2,1], [1,2]]
+    empty_sides = []
+    sides.each do |side|
+      if @board_state.board[side.first][side.last] != 'x' && @board_state.board[side.first][side.last] != 'o'
+        empty_sides << side
+      end
+    end
+
+    position = empty_sides.sample
     @position = @board_state.board[position.first][position.last]
     @board_state.take_position(@position, marker)
   end
