@@ -20,6 +20,7 @@ class Computer
     if self.smart == 'on'
       return take_or_block_win, statement  if take_or_block_win?
       return take_center, statement  if take_center?
+      binding.pry
       return take_opposite_corner, statement  if take_opposite_corner?
       return take_empty_corner, statement  if take_empty_corner?
       return take_empty_side, statement  if take_empty_side?
@@ -94,14 +95,14 @@ class Computer
   end
 
   def take_opposite_corner?
-    corners = {
+    diagonal_corners = {
       [0,0] => [2,2],
       [0,2] => [2,0],
       [2,0] => [0,2],
       [2,2] => [0,0]
     }
 
-    corners.each do |corner, opposite_corner|
+    diagonal_corners.each do |corner, opposite_corner|
       if @board_state.find_position_value(corner) == opponent_marker && @board_state.find_position_value(opposite_corner) != marker && @board_state.find_position_value(opposite_corner) != opponent_marker
         return true
       end
@@ -110,19 +111,18 @@ class Computer
   end
 
   def take_opposite_corner
+    diagonal_corners = {
+      [0,0] => [2,2],
+      [0,2] => [2,0],
+      [2,0] => [0,2],
+      [2,2] => [0,0]
+    }
 
-    if @board_state.board.first.first == opponent_marker && @board_state.board.last.last != marker
-      @position = @board_state.board.last.last
-      @board_state.take_position(@position, marker)
-    elsif @board_state.board.first.last == opponent_marker && @board_state.board.last.first != marker
-      @position = @board_state.board.last.first
-      @board_state.take_position(@position, marker)
-    elsif @board_state.board.last.first == opponent_marker && @board_state.board.first.last!= marker
-      @position = @board_state.board.first.last
-      @board_state.take_position(@position, marker)
-    elsif @board_state.board.last.last == opponent_marker && @board_state.board.first.first != marker
-      @position = @board_state.board.first.first
-      @board_state.take_position(@position, marker)
+    diagonal_corners.each do |corner, opposite_corner|
+      if @board_state.find_position_value(corner) == opponent_marker && @board_state.find_position_value(opposite_corner) != marker
+        @position = @board_state.find_position_value(opposite_corner)
+        @board_state.take_position(@position, marker)
+      end
     end
   end
 

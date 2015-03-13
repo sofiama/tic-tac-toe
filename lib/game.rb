@@ -101,9 +101,7 @@ class Game
         end
       end
       
-      puts "You've chosen #{selection}."
-
-      puts "#{@player1.name}-('#{@player1.marker}') will go first."
+      puts "You've chosen #{selection}. #{@player1.name}-('#{@player1.marker}') will go first."
     else
       invalid_try_again
       select_who_goes_first
@@ -147,7 +145,15 @@ class Game
   end
 
   def show_winner
-    @board.winner?(@player1, @player2)
+    if @board.win? == true
+      if @board.turn % 2 == 0
+        puts "#{@player2.name}-('#{@player2.marker}') wins"
+      elsif @board.turn % 1 == 0
+        puts "#{@player1.name}-('#{@player1.marker}') wins"
+      end
+    else
+      puts "Game over! Tied Game!"
+    end
   end
 
   def play_again
