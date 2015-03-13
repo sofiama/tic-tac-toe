@@ -3,9 +3,9 @@ class Computer
   attr_accessor :marker, :smart
 
   def initialize(board_state)
-    # @marker = marker
     @name = 'Computer'
     @board_state = board_state
+    @smart = 'off'
   end
 
   def opponent_marker
