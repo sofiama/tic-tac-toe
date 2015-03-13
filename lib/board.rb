@@ -29,6 +29,10 @@ class Board
     [[0,2], [1,1], [2,0]]]
   end
 
+  def self.center
+    [1,1]
+  end
+
   def self.corners
     [[0,0], [0,2], [2,0], [2,2]]
   end
@@ -66,9 +70,9 @@ class Board
     !get_free_spaces.empty? ? true : false
   end
 
-  def find_position(position)
+  def find_position_coords(position)
     coords = []
-    board.each_with_index do |rows, row_index|
+    @board.each_with_index do |rows, row_index|
       rows.each_index do |index|
         if board[row_index][index] == position
           coords << row_index << index
@@ -78,13 +82,17 @@ class Board
     coords
   end
 
+  def find_position_value(coords)
+    @board[coords.first][coords.last]
+  end
+
   def position_free?(position)
-    true if get_free_spaces.include?(find_position(position))
+    true if get_free_spaces.include?(find_position_coords(position))
   end
 
   def take_position(position, marker)
     if position_free?(position)
-      coords = find_position(position)
+      coords = find_position_coords(position)
       @board[coords.first][coords.last] = marker
       @turn += 1
     else

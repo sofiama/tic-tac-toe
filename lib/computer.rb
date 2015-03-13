@@ -34,7 +34,7 @@ class Computer
 
   def take_random
     position = @board_state.get_free_spaces.sample
-    @position = @board_state.board[position.first][position.last]
+    @position = @board_state.find_position_value(position)
     @board_state.take_position(@position, marker)
   end
 
@@ -42,7 +42,7 @@ class Computer
     Board.wins.each do |win|
       markers = []
       win.each do |position|
-        markers << @board_state.board[position.first][position.last]
+        markers << @board_state.find_position_value(position)
       end
 
       if (markers.count(marker) == 2 && markers.count(opponent_marker) == 0) || (markers.count(opponent_marker) == 2 && markers.count(marker) == 0)
@@ -59,7 +59,7 @@ class Computer
     Board.wins.each do |win|
       markers = []
       win.each do |position|
-        markers << @board_state.board[position.first][position.last]
+        markers << @board_state.find_position_value(position)
       end
 
       if markers.count(marker) == 2 && markers.count(opponent_marker) == 0
@@ -75,9 +75,7 @@ class Computer
       @position = block_positions.sample
     end
 
-    if @board_state.position_free?(@position)
-      @board_state.take_position(@position, marker)
-    end
+    @board_state.take_position(@position, marker)
   end
 
   # def fork
@@ -91,8 +89,7 @@ class Computer
   end
 
   def take_center
-    center = [1,1]
-    @position = @board_state.board[center.first][center.last]
+    @position = @board_state.find_position_value(Board.center)
     @board_state.take_position(@position, marker)
   end
 
@@ -105,7 +102,7 @@ class Computer
     }
 
     corners.each do |corner, opposite_corner|
-      if @board_state.board[corner.first][corner.last] == opponent_marker && @board_state.board[opposite_corner.first][opposite_corner.last] != marker && @board_state.board[opposite_corner.first][opposite_corner.last] != opponent_marker
+      if @board_state.find_position_value(corner) == opponent_marker && @board_state.find_position_value(opposite_corner) != marker && @board_state.find_position_value(opposite_corner) != opponent_marker
         return true
       end
     end
@@ -131,7 +128,7 @@ class Computer
 
   def take_empty_corner?
     Board.corners.each do |corner|
-      if @board_state.board[corner.first][corner.last] != 'x' && @board_state.board[corner.first][corner.last] != 'o'
+      if @board_state.find_position_value(corner) != 'x' && @board_state.find_position_value(corner) != 'o'
         return true
       end
     end
@@ -141,19 +138,19 @@ class Computer
   def take_empty_corner
     empty_corners = []
     Board.corners.each do |corner|
-      if @board_state.board[corner.first][corner.last] != 'x' && @board_state.board[corner.first][corner.last] != 'o'
+      if @board_state.find_position_value(corner) != 'x' && @board_state.find_position_value(corner) != 'o'
         empty_corners << corner
       end
     end
 
-    position = empty_corners.sample
-    @position = @board_state.board[position.first][position.last]
+    empty_corner = empty_corners.sample
+    @position = @board_state.find_position_value(empty_corner)
     @board_state.take_position(@position, marker)
   end
 
   def take_empty_side?
     Board.sides.each do |side|
-      if @board_state.board[side.first][side.last] != 'x' && @board_state.board[side.first][side.last] != 'o'
+      if @board_state.find_position_value(side) != 'x' && @board_state.find_position_value(side) != 'o'
         return true
       end
     end
@@ -163,7 +160,7 @@ class Computer
   def take_empty_side
     empty_sides = []
     Board.sides.each do |side|
-      if @board_state.board[side.first][side.last] != 'x' && @board_state.board[side.first][side.last] != 'o'
+      if @board_state.find_position_value(side) != 'x' && @board_state.find_position_value(side) != 'o'
         empty_sides << side
       end
     end
