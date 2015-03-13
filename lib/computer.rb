@@ -20,7 +20,6 @@ class Computer
     if self.smart == 'on'
       return take_or_block_win, statement  if take_or_block_win?
       return take_center, statement  if take_center?
-      binding.pry
       return take_opposite_corner, statement  if take_opposite_corner?
       return take_empty_corner, statement  if take_empty_corner?
       return take_empty_side, statement  if take_empty_side?

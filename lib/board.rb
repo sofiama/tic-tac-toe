@@ -42,13 +42,15 @@ class Board
   end
 
   def win?
-    Board.wins.each do |win|
-      values = []
-      win.each do |position|
-        values << board[position.first][position.last]
-      end
-      if values.uniq.size == 1
-        return true
+    if @turn >= 5
+      Board.wins.each do |win|
+        values = []
+        win.each do |position|
+          values << board[position.first][position.last]
+        end
+        if values.uniq.size == 1
+          return true
+        end
       end
     end
     false
