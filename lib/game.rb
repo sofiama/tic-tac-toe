@@ -24,14 +24,14 @@ class Game
     if player_num_valid?(player_num)
       case player_num
       when '1'
-        @player1 = Human.new(get_player_name)
-        @player2 = Computer.new(@board)
+        self.player1 = Human.new(get_player_name)
+        self.player2 = Computer.new(@board)
         select_computer_smart
       when '2'
         print "First player, "
-        @player1 = Human.new(get_player_name)
+        self.player1 = Human.new(get_player_name)
         print "Second player, "
-        @player2 = Human.new(get_player_name)
+        self.player2 = Human.new(get_player_name)
       end 
     else
       invalid_try_again
@@ -44,12 +44,12 @@ class Game
   end
 
   def select_computer_smart
-    puts "Your opponent will be a computer. Do you want the computer to 'smart'? (Y/N)"
+    puts "Your opponent will be a computer. Do you want the computer to play 'smart'? (Y/N)"
     ans = gets.chomp.downcase
 
     if ans == 'y'
       puts "Computer will play 'smart'."
-      @player2.smart = 'on'
+      self.player2.smart = 'on'
     elsif ans == 'n'
       puts "Computer will play randomly."
     else
@@ -63,14 +63,14 @@ class Game
   end
 
   def select_marker
-    puts "#{@player1.name}, which marker would you like? ('x' / 'o')?"
+    puts "#{self.player1.name}, which marker would you like? ('x' or 'o')"
     marker = gets.chomp.downcase
     if marker_valid?(marker)
-      @player1.marker = marker
+      self.player1.marker = marker
       if marker == 'x'
-        @player2.marker = 'o'
+        self.player2.marker = 'o'
       else
-        @player2.marker = 'x'
+        self.player2.marker = 'x'
       end
     else
       invalid_try_again
@@ -84,8 +84,8 @@ class Game
 
   def select_who_goes_first
     puts "Who will begin the game? (1, 2, or 3)"
-    puts "(1) #{@player1.name}"
-    puts "(2) #{@player2.name}"
+    puts "(1) #{self.player1.name}"
+    puts "(2) #{self.player2.name}"
     puts "(3) Random - doesn't matter who goes first"
     
     selection = gets.chomp.to_s
@@ -101,7 +101,7 @@ class Game
         end
       end
       
-      puts "You've chosen #{selection}. #{@player1.name}-('#{@player1.marker}') will go first."
+      puts "You've chosen #{selection}. #{self.player1.name}-('#{self.player1.marker}') will go first."
     else
       invalid_try_again
       select_who_goes_first
@@ -109,8 +109,8 @@ class Game
   end
 
   def set_player2_to_go_first
-    player = @player1
-    self.player1 = @player2
+    player = self.player1
+    self.player1 = self.player2
     self.player2 = player
   end
 
@@ -126,18 +126,18 @@ class Game
   def play
     while !@board.win? && @board.free_space?
       if @board.turn % 2 == 0
-        if @player1.instance_of?(Human)
-          position = @player1.move
-          @board.take_position(position, @player1.marker)
+        if self.player1.instance_of?(Human)
+          position = self.player1.move
+          @board.take_position(position, self.player1.marker)
         else
-          @player1.move
+          self.player1.move
         end
       else
-        if @player2.instance_of?(Human)
-          position = @player2.move
-          @board.take_position(position, @player2.marker)
+        if self.player2.instance_of?(Human)
+          position = self.player2.move
+          @board.take_position(position, self.player2.marker)
         else
-          @player2.move
+          self.player2.move
         end
       end
       @board.show_board
@@ -147,9 +147,9 @@ class Game
   def show_winner
     if @board.win? == true
       if @board.turn % 2 == 0
-        puts "#{@player2.name}-('#{@player2.marker}') wins"
+        puts "#{self.player2.name}-('#{self.player2.marker}') wins"
       elsif @board.turn % 1 == 0
-        puts "#{@player1.name}-('#{@player1.marker}') wins"
+        puts "#{self.player1.name}-('#{self.player1.marker}') wins"
       end
     else
       puts "Game over! Tied Game!"
@@ -157,7 +157,7 @@ class Game
   end
 
   def play_again
-    puts "Do you want to play again? (Y/N)?"
+    puts "Do you want to play again? (Y/N)"
     answer = gets.chomp.downcase
     if answer == 'y'
       Game.new

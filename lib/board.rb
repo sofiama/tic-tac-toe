@@ -9,11 +9,11 @@ class Board
   def show_board
     puts <<-board
 
-      #{@board[0][0]} | #{@board[0][1]} | #{@board[0][2]}
+      #{self.board[0][0]} | #{self.board[0][1]} | #{self.board[0][2]}
       ---------
-      #{@board[1][0]} | #{@board[1][1]} | #{@board[1][2]}
+      #{self.board[1][0]} | #{self.board[1][1]} | #{self.board[1][2]}
       ---------
-      #{@board[2][0]} | #{@board[2][1]} | #{@board[2][2]} 
+      #{self.board[2][0]} | #{self.board[2][1]} | #{self.board[2][2]} 
 
     board
   end
@@ -42,11 +42,11 @@ class Board
   end
 
   def win?
-    if @turn >= 5
+    if self.turn >= 5
       Board.wins.each do |win|
         values = []
         win.each do |position|
-          values << board[position.first][position.last]
+          values << self.board[position.first][position.last]
         end
         if values.uniq.size == 1
           return true
@@ -58,9 +58,9 @@ class Board
 
   def get_free_spaces
     spaces = []
-    @board.each_with_index do |rows, row_index|
+    self.board.each_with_index do |rows, row_index|
       rows.each_index do |index|
-        if board[row_index][index] != 'x' &&  board[row_index][index] != 'o'
+        if self.board[row_index][index] != 'x' &&  self.board[row_index][index] != 'o'
           spaces << [row_index, index]
         end
       end
@@ -74,9 +74,9 @@ class Board
 
   def find_position_coords(position)
     coords = []
-    @board.each_with_index do |rows, row_index|
+    self.board.each_with_index do |rows, row_index|
       rows.each_index do |index|
-        if board[row_index][index] == position
+        if self.board[row_index][index] == position
           coords << row_index << index
         end
       end
@@ -85,7 +85,7 @@ class Board
   end
 
   def find_position_value(coords)
-    @board[coords.first][coords.last]
+    self.board[coords.first][coords.last]
   end
 
   def position_free?(position)
@@ -95,10 +95,10 @@ class Board
   def take_position(position, marker)
     if position_free?(position)
       coords = find_position_coords(position)
-      @board[coords.first][coords.last] = marker
-      @turn += 1
+      self.board[coords.first][coords.last] = marker
+      self.turn += 1
     else
-      @turn += 0
+      self.turn += 0
       puts 'Invalid position. Please try again'
     end
   end

@@ -9,7 +9,7 @@ class Computer
   end
 
   def opponent_marker
-    if @marker == 'x'
+    if self.marker == 'x'
       @opponent_marker = 'o'
     else
       @opponent_marker = 'x'
@@ -44,7 +44,7 @@ class Computer
         markers << @board_state.find_position_value(position)
       end
 
-      if (markers.count(marker) == 2 && markers.count(opponent_marker) == 0) || (markers.count(opponent_marker) == 2 && markers.count(marker) == 0)
+      if (markers.count(self.marker) == 2 && markers.count(self.opponent_marker) == 0) || (markers.count(self.opponent_marker) == 2 && markers.count(self.marker) == 0)
         return true
       end
     end
@@ -61,20 +61,20 @@ class Computer
         markers << @board_state.find_position_value(position)
       end
 
-      if markers.count(marker) == 2 && markers.count(opponent_marker) == 0
-        win_positions << (markers - [marker]).first
-      elsif markers.count(opponent_marker) == 2 && markers.count(marker) == 0
-        block_positions << (markers - [opponent_marker]).first
+      if markers.count(self.marker) == 2 && markers.count(self.opponent_marker) == 0
+        win_positions << (markers - [self.marker]).first
+      elsif markers.count(self.opponent_marker) == 2 && markers.count(self.marker) == 0
+        block_positions << (markers - [self.opponent_marker]).first
       end
     end
 
     if !win_positions.empty?
-      @position = win_positions.sample
+      self.position = win_positions.sample
     else
-      @position = block_positions.sample
+      self.position = block_positions.sample
     end
 
-    @board_state.take_position(@position, marker)
+    @board_state.take_position(self.position, self.marker)
   end
 
   def take_center?
@@ -94,7 +94,7 @@ class Computer
     }
 
     diagonal_corners.each do |corner, opposite_corner|
-      if @board_state.find_position_value(corner) == opponent_marker && @board_state.find_position_value(opposite_corner) != marker && @board_state.find_position_value(opposite_corner) != opponent_marker
+      if @board_state.find_position_value(corner) == self.opponent_marker && @board_state.find_position_value(opposite_corner) != self.marker && @board_state.find_position_value(opposite_corner) != self.opponent_marker
         return true
       end
     end
@@ -111,7 +111,7 @@ class Computer
 
     opposite_corners = []
     diagonal_corners.each do |corner, opposite_corner|
-      if @board_state.find_position_value(corner) == opponent_marker && @board_state.find_position_value(opposite_corner) != marker
+      if @board_state.find_position_value(corner) == self.opponent_marker && @board_state.find_position_value(opposite_corner) != self.marker
         opposite_corners << opposite_corner
       end
     end
@@ -122,7 +122,7 @@ class Computer
 
   def take_empty_corner?
     Board.corners.each do |corner|
-      if @board_state.find_position_value(corner) != marker && @board_state.find_position_value(corner) != opponent_marker
+      if @board_state.find_position_value(corner) != self.marker && @board_state.find_position_value(corner) != self.opponent_marker
         return true
       end
     end
@@ -132,7 +132,7 @@ class Computer
   def take_empty_corner
     empty_corners = []
     Board.corners.each do |corner|
-      if @board_state.find_position_value(corner) != marker && @board_state.find_position_value(corner) != opponent_marker
+      if @board_state.find_position_value(corner) != self.marker && @board_state.find_position_value(corner) != self.opponent_marker
         empty_corners << corner
       end
     end
@@ -143,7 +143,7 @@ class Computer
 
   def take_empty_side?
     Board.sides.each do |side|
-      if @board_state.find_position_value(side) != marker && @board_state.find_position_value(side) != opponent_marker
+      if @board_state.find_position_value(side) != self.marker && @board_state.find_position_value(side) != self.opponent_marker
         return true
       end
     end
@@ -153,7 +153,7 @@ class Computer
   def take_empty_side
     empty_sides = []
     Board.sides.each do |side|
-      if @board_state.find_position_value(side) != marker && @board_state.find_position_value(side) != opponent_marker
+      if @board_state.find_position_value(side) != self.marker && @board_state.find_position_value(side) != self.opponent_marker
         empty_sides << side
       end
     end
@@ -163,7 +163,7 @@ class Computer
   end
 
   def find_pos_val_and_take_pos(position_coords)
-    @position = @board_state.find_position_value(position_coords)
-    @board_state.take_position(@position, marker)
+    self.position = @board_state.find_position_value(position_coords)
+    @board_state.take_position(self.position, self.marker)
   end
 end
