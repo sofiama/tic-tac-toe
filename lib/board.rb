@@ -29,6 +29,14 @@ class Board
     [[0,2], [1,1], [2,0]]]
   end
 
+  def self.corners
+    [[0,0], [0,2], [2,0], [2,2]]
+  end
+
+  def self.sides
+    [[0,1], [1,0], [2,1], [1,2]]
+  end
+
   def win?
     Board.wins.each do |win|
       values = []

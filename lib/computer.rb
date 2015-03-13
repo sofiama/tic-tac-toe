@@ -128,8 +128,7 @@ class Computer
   end
 
   def take_empty_corner?
-    corners = [[0,0], [0,2], [2,0], [2,2]]
-    corners.each do |corner|
+    Board.corners.each do |corner|
       if @board_state.board[corner.first][corner.last] != 'x' && @board_state.board[corner.first][corner.last] != 'o'
         return true
       end
@@ -138,10 +137,8 @@ class Computer
   end
 
   def take_empty_corner
-    corners = [[0,0], [0,2], [2,0], [2,2]]
-
     empty_corners = []
-    corners.each do |corner|
+    Board.corners.each do |corner|
       if @board_state.board[corner.first][corner.last] != 'x' && @board_state.board[corner.first][corner.last] != 'o'
         empty_corners << corner
       end
@@ -153,9 +150,7 @@ class Computer
   end
 
   def take_empty_side?
-    sides = [[0,1], [1,0], [2,1], [1,2]]
-
-    sides.each do |side|
+    Board.sides.each do |side|
       if @board_state.board[side.first][side.last] != 'x' && @board_state.board[side.first][side.last] != 'o'
         return true
       end
@@ -164,9 +159,8 @@ class Computer
   end
 
   def take_empty_side
-    sides = [[0,1], [1,0], [2,1], [1,2]]
     empty_sides = []
-    sides.each do |side|
+    Board.sides.each do |side|
       if @board_state.board[side.first][side.last] != 'x' && @board_state.board[side.first][side.last] != 'o'
         empty_sides << side
       end
