@@ -1,6 +1,6 @@
 class Computer
   attr_reader :name
-  attr_accessor :marker, :smart
+  attr_accessor :marker, :smart, :position
 
   def initialize(board_state)
     @name = 'Computer'
@@ -18,20 +18,23 @@ class Computer
 
   def move
     if self.smart == 'on'
-      return take_or_block_win if take_or_block_win?
-      return take_center if take_center?
-      return take_opposite_corner if take_opposite_corner?
-      return take_empty_corner if take_empty_corner?
-      take_random
+      return take_or_block_win, statement  if take_or_block_win?
+      return take_center, statement  if take_center?
+      return take_opposite_corner, statement  if take_opposite_corner?
+      return take_empty_corner, statement  if take_empty_corner?
+      return take_random, statement
     else
-      take_random
+      return take_random, statement
     end
+  end
+
+  def statement
+    puts "#{self.name} plays position #{self.position}."
   end
 
   def take_random
     position = @board_state.get_free_spaces.sample
     @position = @board_state.board[position.first][position.last]
-    puts "#{self.name} plays #{@position}."
     @board_state.take_position(@position, marker)
   end
 
@@ -73,7 +76,6 @@ class Computer
 
     if @board_state.position_free?(@position)
       @board_state.take_position(@position, marker)
-      puts "#{self.name} plays position #{@position}"
     end
   end
 
@@ -89,9 +91,8 @@ class Computer
 
   def take_center
     center = [1,1]
-    position = @board_state.board[center.first][center.last]
-    @board_state.take_position(position, marker)
-    puts "#{self.name} plays position #{position}"
+    @position = @board_state.board[center.first][center.last]
+    @board_state.take_position(@position, marker)
   end
 
   def take_opposite_corner?
@@ -124,7 +125,6 @@ class Computer
       @position = @board_state.board.first.first
       @board_state.take_position(@position, marker)
     end
-    puts "#{self.name} plays position #{@position}"
   end
 
   def take_empty_corner?
@@ -148,8 +148,7 @@ class Computer
     end
 
     position = empty_corners.sample
-    position = @board_state.board[position.first][position.last]
-    @board_state.take_position(position, marker)
-    puts "#{self.name} plays position #{position}"
+    @position = @board_state.board[position.first][position.last]
+    @board_state.take_position(@position, marker)
   end
 end
