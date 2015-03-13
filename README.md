@@ -1,4 +1,4 @@
-# tic-tac-toe
+#Tic-Tac-Toe
 
 Command line interface tic-tac-toe game
  
@@ -18,11 +18,11 @@ Command line interface tic-tac-toe game
 * Allows player(s) to enter their names
 * Allows player to select their marker
 * Allows player to choose who can start the game first
-* If playing against a computer, allows player to select whether they want to play against:
-    * a 'smart' computer
-    * or not, then computer will play at random position
+* If playing against a computer, allows player to select whether they want to play against a 'smart' computer
+    * if yes *(see 'smart' computer strategy)*
+    * if no - computer will play by selecting a random position
 
-##Game Play
+##Game play
 * Each player takes their turn to place their marker in the tic-tac-toe board by entering the position on the board
 * Game is checked for winner when there are five or more markers on the board *(see algorithm for checking winners)*
 * Winner/Tie is announced when a player:
@@ -30,7 +30,7 @@ Command line interface tic-tac-toe game
     * or when there is a tie (no one succeeds in placing three respective markers in a horizontal, vertical, or diagonal row and no spaces are left on the board)
 * When game ends, player is asked to play again
 
-##'Smart' Computer strategy
+##'Smart' computer strategy
 
 The order is as follows:
 
