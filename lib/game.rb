@@ -5,6 +5,7 @@ class Game
     @board = Board.new
     welcome
     get_players
+    select_marker
     select_who_goes_first
     play
     show_winner
@@ -62,6 +63,26 @@ class Game
     true if player_num == '1' || player_num == '2'
   end
 
+  def select_marker
+    puts "#{@player1.name}, which marker would you like? ('x' / 'o')?"
+    marker = gets.chomp.downcase
+    if marker_valid?(marker)
+      @player1.marker = marker
+      if marker == 'x'
+        @player2.marker = 'o'
+      else
+        @player2.marker = 'x'
+      end
+    else
+      invalid_try_again
+      select_marker
+    end
+  end
+
+  def marker_valid?(marker)
+    true if marker == 'x' || marker == 'o'
+  end
+
   def select_who_goes_first
     puts "Who will begin the game? (1, 2, or 3)"
     puts "(1) #{@player1.name}"
@@ -72,31 +93,28 @@ class Game
 
     if selection_valid?(selection)
       case selection
-      when '1'
-        @player1.marker = 'x'
-        @player2.marker = 'o'
       when '2'
-        @player2.marker = 'x'
-        @player1.marker = 'o'
+        set_player2_to_go_first
       when '3'
-        markers = ['x', 'o']
-        @player1.marker = markers.sample
-        @player2.marker = (markers - [@player1.marker])[0]
+        rand_num = rand(2)
+        if rand_num == 1
+          set_player2_to_go_first
+        end
       end
       
       puts "You've chosen #{selection}."
 
-      if @player2.marker == 'x'
-        player = @player1
-        self.player1 = @player2
-        self.player2 = player
-      end
-
-      puts "#{@player1.name} will go first."
+      puts "#{@player1.name}-('#{@player1.marker}') will go first."
     else
       invalid_try_again
       select_who_goes_first
     end
+  end
+
+  def set_player2_to_go_first
+    player = @player1
+    self.player1 = @player2
+    self.player2 = player
   end
 
   def selection_valid?(selection)
