@@ -44,6 +44,7 @@ class Computer
       win.each do |position|
         markers << @board_state.board[position.first][position.last]
       end
+
       if (markers.count(marker) == 2 && markers.count(opponent_marker) == 0) || (markers.count(opponent_marker) == 2 && markers.count(marker) == 0)
         return true
       end
@@ -112,16 +113,17 @@ class Computer
   end
 
   def take_opposite_corner
-    if @board_state.board.first.first == opponent_marker
+
+    if @board_state.board.first.first == opponent_marker && @board_state.board.last.last != marker
       @position = @board_state.board.last.last
       @board_state.take_position(@position, marker)
-    elsif @board_state.board.first.last == opponent_marker
+    elsif @board_state.board.first.last == opponent_marker && @board_state.board.last.first != marker
       @position = @board_state.board.last.first
       @board_state.take_position(@position, marker)
-    elsif @board_state.board.last.first == opponent_marker
+    elsif @board_state.board.last.first == opponent_marker && @board_state.board.first.last!= marker
       @position = @board_state.board.first.last
       @board_state.take_position(@position, marker)
-    elsif @board_state.board.last.last == opponent_marker
+    elsif @board_state.board.last.last == opponent_marker && @board_state.board.first.first != marker
       @position = @board_state.board.first.first
       @board_state.take_position(@position, marker)
     end

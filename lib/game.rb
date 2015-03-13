@@ -26,7 +26,7 @@ class Game
       when '1'
         @player1 = Human.new(get_player_name)
         @player2 = Computer.new(@board)
-        computer_smart?
+        select_computer_smart
       when '2'
         print "First player, "
         @player1 = Human.new(get_player_name)
@@ -43,19 +43,18 @@ class Game
     puts "Invalid answer. Pleae try again."
   end
 
-  def computer_smart?
-    puts "Your opponent will be a computer. Do you want the computer to be a bit smart? (Y/N)"
+  def select_computer_smart
+    puts "Your opponent will be a computer. Do you want the computer to 'smart'? (Y/N)"
     ans = gets.chomp.downcase
 
     if ans == 'y'
-      puts "Computer will play a bit smart."
+      puts "Computer will play 'smart'."
       @player2.smart = 'on'
-      return true
     elsif ans == 'n'
       puts "Computer will play randomly."
     else
       invalid_try_again
-      computer_smart?
+      select_computer_smart
     end
   end
 
