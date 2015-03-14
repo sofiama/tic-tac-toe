@@ -67,14 +67,17 @@ class Game
   end
 
   def select_marker
-    puts "#{self.player1.name}, which marker would you like? ('x' or 'o')"
+    players = [self.player1, self.player2]
+    rand_player = players.sample
+    puts "#{rand_player.name}, which marker would you like? ('x' or 'o')"
+
     marker = gets.chomp.downcase
     if marker_valid?(marker)
-      self.player1.marker = marker
+      rand_player.marker = marker
       if marker == 'x'
-        self.player2.marker = 'o'
+        (players - [rand_player])[0].marker = 'o'
       else
-        self.player2.marker = 'x'
+        (players - [rand_player])[0].marker = 'x'
       end
     else
       invalid_try_again
@@ -88,8 +91,8 @@ class Game
 
   def select_who_goes_first
     puts "Who will begin the game? (1, 2, or 3)"
-    puts "(1) #{self.player1.name}"
-    puts "(2) #{self.player2.name}"
+    puts "(1) #{self.player1.name}-('#{self.player1.marker}')"
+    puts "(2) #{self.player2.name}-('#{self.player2.marker}')"
     puts "(3) Random - doesn't matter who goes first"
     
     selection = gets.chomp.to_s
