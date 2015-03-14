@@ -20,7 +20,7 @@ class Game
 
   def get_players
     puts "Do you want to play against a computer? (Y/N)"
-    ans = gets.chomp.to_s
+    ans = gets.chomp.downcase
 
     if ans_valid?(ans)
       case ans
