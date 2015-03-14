@@ -16,7 +16,8 @@ Command line interface tic-tac-toe game
     * human vs human
     * human vs computer
 * Allows player(s) to enter their names
-* Allows player to select their marker
+* Randomizes player to be asked to select their marker
+    * If computer is promped, the human player selects the computer's marker
 * Allows player to choose who can start the game first
 * If playing against a computer, allows player to select whether they want to play against a 'smart' computer
     * if yes *(see 'smart' computer strategy)*
